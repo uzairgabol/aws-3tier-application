@@ -1,0 +1,22 @@
+services:
+  app-tier-python:
+    build:
+      context: ./app-tier-python
+    container_name: app-tier-python
+    ports:
+      - "4000:4000"
+    networks:
+      - app-network
+
+  web-tier:
+    build:
+      context: ./web-tier
+    container_name: web-tier
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
