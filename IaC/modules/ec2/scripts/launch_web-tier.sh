@@ -75,7 +75,7 @@ check_git
 
 # Step 2: Clone the GitHub repository
 echo "Cloning the repository..."
-git clone https://github.com/uzairgabol/aws-3tier-application.git
+sudo git clone https://github.com/uzairgabol/aws-3tier-application.git
 
 # Step 3: Navigate to the `app-tier-python` directory
 cd aws-3tier-application/web-tier || { echo "Directory not found! Exiting."; exit 1; }
@@ -83,10 +83,10 @@ cd aws-3tier-application/web-tier || { echo "Directory not found! Exiting."; exi
 get_api_server_dns
 # Step 4: Build the Docker container using the DB Endpoint as a build argument
 echo "Building Docker image..."
-sudo docker build --build-arg API_SERVER=$DNS_BACKEND -t aws-web-tier .
+sudo docker build -t aws-web-tier .
 
 # Step 5: Run the Docker container on port 80
 echo "Running Docker container..."
-sudo docker run -p 80:80 --restart always -d aws-web-tier
+sudo docker run -e API_URL=$DNS_BACKEND -p 80:80 --restart always -d aws-web-tier
 
 echo "Script execution complete."
